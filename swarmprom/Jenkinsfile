@@ -1,0 +1,19 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('clone') {
+            steps {
+              git branch: 'main', url: 'https://github.com/bhanukumari/monitoring.git' 
+            }
+        }
+         stage('build-PGA') {
+            steps {
+              sh '''
+              cd swarmprom
+              sudo docker stack deploy -c docker-compose.yml monitoring_stack
+              '''
+            }
+        }
+    }
+}
